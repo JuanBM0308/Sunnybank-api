@@ -1,6 +1,5 @@
 package com.juanba.sunnybank.domain.model.bank_account;
 
-import com.juanba.sunnybank.domain.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,6 @@ import java.util.Currency;
 public class BankAccount {
     private Long id;
     private String accountNumber;
-    private User owner;
     private BigDecimal balance;
     private AccountType accountType;
     private Status accountStatus;
