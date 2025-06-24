@@ -1,7 +1,7 @@
 package com.juanba.sunnybank.infrastructure.persistance.notification;
 
 import com.juanba.sunnybank.domain.model.user.User;
-import com.juanba.sunnybank.infrastructure.persistance.user.UserEntity;
+import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +36,7 @@ public class NotificationEntity {
     @Column(name = "user_email_no")
     private String userEmail;
 
-    //* Relacion de NotificationEntity a UserEntity
+    //* Relacion a UserEntity
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = "id_customer_no")
     private User customer;

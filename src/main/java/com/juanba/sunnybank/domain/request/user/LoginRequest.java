@@ -1,4 +1,4 @@
-package com.juanba.sunnybank.domain.request;
+package com.juanba.sunnybank.domain.request.user;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;

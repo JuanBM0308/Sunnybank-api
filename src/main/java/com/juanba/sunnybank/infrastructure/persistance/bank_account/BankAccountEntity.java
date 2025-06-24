@@ -3,7 +3,7 @@ package com.juanba.sunnybank.infrastructure.persistance.bank_account;
 import com.juanba.sunnybank.domain.model.bank_account.AccountType;
 import com.juanba.sunnybank.domain.model.bank_account.Status;
 import com.juanba.sunnybank.domain.model.user.User;
-import com.juanba.sunnybank.infrastructure.persistance.user.UserEntity;
+import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -17,10 +17,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Currency;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "tb_bank_account")
 public class BankAccountEntity {
 
     @Id
@@ -50,7 +52,7 @@ public class BankAccountEntity {
     @Column(name = "creation_date_ba")
     private LocalDateTime creationDate;
 
-    // * Relacion de BankAccountEntity a UserEntity
+    // * Relacion UserEntity
     @ManyToOne(targetEntity = UserEntity.class)
     @JoinColumn(name = "id_owner_ba")
     private User owner;
