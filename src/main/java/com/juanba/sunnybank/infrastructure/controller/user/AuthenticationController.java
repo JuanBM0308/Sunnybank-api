@@ -1,7 +1,7 @@
 package com.juanba.sunnybank.infrastructure.controller.user;
 
 import com.juanba.sunnybank.domain.request.user.AuthenticationRequest;
-import com.juanba.sunnybank.domain.response.AuthenticationResponse;
+import com.juanba.sunnybank.domain.response.user.AuthenticationResponse;
 import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import com.juanba.sunnybank.infrastructure.util.JwtService;
 import jakarta.validation.Valid;

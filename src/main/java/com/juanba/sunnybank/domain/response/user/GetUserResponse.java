@@ -1,4 +1,4 @@
-package com.juanba.sunnybank.domain.response;
+package com.juanba.sunnybank.domain.response.user;
 
 import com.juanba.sunnybank.domain.model.user.User;
 

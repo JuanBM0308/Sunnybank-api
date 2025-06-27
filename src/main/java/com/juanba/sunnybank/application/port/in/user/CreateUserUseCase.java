@@ -1,4 +1,4 @@
-package com.juanba.sunnybank.application.port.in;
+package com.juanba.sunnybank.application.port.in.user;
 
 import com.juanba.sunnybank.domain.model.user.User;
 

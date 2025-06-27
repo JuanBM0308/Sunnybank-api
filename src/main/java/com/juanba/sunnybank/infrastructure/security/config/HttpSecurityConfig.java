@@ -34,6 +34,7 @@ public class HttpSecurityConfig {
                     // ! User endpoints
                     httpRequest.requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "/api/v1/users/{id}").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name());
+                    httpRequest.requestMatchers(HttpMethod.GET, "/api/v1/users").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name());
 
                     httpRequest.anyRequest().authenticated();
                 })

@@ -1,14 +1,19 @@
 package com.juanba.sunnybank.infrastructure.controller.user;
 
-import com.juanba.sunnybank.application.port.in.CreateUserUseCase;
-import com.juanba.sunnybank.application.port.in.GetUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.CreateUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.GetUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.ListUserUseCase;
 import com.juanba.sunnybank.domain.model.user.User;
 import com.juanba.sunnybank.domain.request.user.RegisterRequest;
-import com.juanba.sunnybank.domain.response.GetUserResponse;
-import com.juanba.sunnybank.domain.response.RegisterResponse;
+import com.juanba.sunnybank.domain.response.user.GetUserResponse;
+import com.juanba.sunnybank.domain.response.user.RegisterResponse;
 import com.juanba.sunnybank.infrastructure.mappers.UserRequestResponseMapper;
+import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,7 @@ public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
     private final GetUserUseCase getUserUseCase;
+    private final ListUserUseCase listUserUseCase;
 
     private final UserRequestResponseMapper userRequestResponseMapper;
 
@@ -41,5 +47,12 @@ public class UserController {
                 orElseThrow(() -> new IllegalArgumentException("User not found in the database"));
 
         return ResponseEntity.ok(new GetUserResponse(user));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<GetUserResponse>> listUser(@PageableDefault(sort = {"email"}) Pageable pageable) {
+        final Page<GetUserResponse> userPage = listUserUseCase.findAllByIsActiveTrue(pageable)
+                .map(GetUserResponse::new);
+        return ResponseEntity.ok(userPage);
     }
 }

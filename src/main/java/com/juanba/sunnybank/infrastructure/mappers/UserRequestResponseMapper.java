@@ -2,7 +2,7 @@ package com.juanba.sunnybank.infrastructure.mappers;
 
 import com.juanba.sunnybank.domain.model.user.User;
 import com.juanba.sunnybank.domain.request.user.RegisterRequest;
-import com.juanba.sunnybank.domain.response.RegisterResponse;
+import com.juanba.sunnybank.domain.response.user.RegisterResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
