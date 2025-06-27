@@ -3,18 +3,12 @@ package com.juanba.sunnybank.domain.model.user;
 import com.juanba.sunnybank.domain.model.address.Address;
 import com.juanba.sunnybank.domain.model.bank_account.BankAccount;
 import com.juanba.sunnybank.domain.model.notification.Notification;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 @Data

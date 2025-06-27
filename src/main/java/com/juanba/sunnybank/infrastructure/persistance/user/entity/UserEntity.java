@@ -8,10 +8,7 @@ import com.juanba.sunnybank.infrastructure.persistance.bank_account.BankAccountE
 import com.juanba.sunnybank.infrastructure.persistance.notification.NotificationEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +18,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name = "tb_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "tb_user")
+@EqualsAndHashCode(of = "id")
 public class UserEntity implements UserDetails {
 
     @Id
@@ -54,6 +52,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "lastLogin_date_us")
     private LocalDate lastLoginDate;
 
+    @Email
     @Column(name = "email_us", columnDefinition = "VARCHAR(500)", unique = true, nullable = false)
     private String email;
 
@@ -94,12 +93,12 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 
     @Override
@@ -122,3 +121,4 @@ public class UserEntity implements UserDetails {
         return true;
     }
 }
+

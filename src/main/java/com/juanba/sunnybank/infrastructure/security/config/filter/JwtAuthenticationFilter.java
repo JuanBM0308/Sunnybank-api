@@ -1,8 +1,7 @@
-package com.juanba.sunnybank.infrastructure.config.security.filter;
+package com.juanba.sunnybank.infrastructure.security.config.filter;
 
-import com.juanba.sunnybank.infrastructure.authentication.JwtService;
-import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import com.juanba.sunnybank.infrastructure.persistance.user.repository.SpringDataUserRepository;
+import com.juanba.sunnybank.infrastructure.util.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,20 +23,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        var authorizationHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String jwt = authHeader.split(" ")[1];
-        String email = jwtService.extractUsername(jwt);
-        UserEntity user = springDataUserRepository.findByEmail(email).get();
+        var jwt = authorizationHeader.split(" ")[1];
+        var subject = jwtService.getSubject(jwt);
+        var user = springDataUserRepository.findByEmail(subject);
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                email, null, user.getAuthorities()
+                user, null, user.getAuthorities()
         );
+
         SecurityContextHolder.getContext().setAuthentication(authToken);
+
         filterChain.doFilter(request, response);
     }
 }

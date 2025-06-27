@@ -1,6 +1,5 @@
 package com.juanba.sunnybank.infrastructure.mappers;
 
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
