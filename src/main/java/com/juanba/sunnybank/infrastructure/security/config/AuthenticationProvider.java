@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationProvider implements UserDetailsService {
 
+    /*
+        No es proveedor de autenticacion, es usado para que spring tenga contexto
+        de los usuarios en la base de datos
+    */
+
     private final SpringDataUserRepository springDataUserRepository;
 
     @Override

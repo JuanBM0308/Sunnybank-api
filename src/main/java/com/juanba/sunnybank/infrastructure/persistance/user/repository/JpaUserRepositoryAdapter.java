@@ -7,6 +7,8 @@ import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class JpaUserRepositoryAdapter implements UserRepositoryOutPort {
@@ -19,5 +21,12 @@ public class JpaUserRepositoryAdapter implements UserRepositoryOutPort {
         UserEntity userEntity = userMapper.toEntity(user);
         final UserEntity savedUser = springDataUserRepository.save(userEntity);
         return userMapper.toDomain(savedUser);
+    }
+
+    @Override
+    public Optional<User> findById(Long id) {
+        final UserEntity savedUser = springDataUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found in the databases"));
+        return Optional.of(userMapper.toDomain(savedUser));
     }
 }

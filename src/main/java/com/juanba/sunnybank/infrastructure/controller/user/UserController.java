@@ -1,18 +1,17 @@
 package com.juanba.sunnybank.infrastructure.controller.user;
 
 import com.juanba.sunnybank.application.port.in.CreateUserUseCase;
+import com.juanba.sunnybank.application.port.in.GetUserUseCase;
 import com.juanba.sunnybank.domain.model.user.User;
 import com.juanba.sunnybank.domain.request.user.RegisterRequest;
+import com.juanba.sunnybank.domain.response.GetUserResponse;
 import com.juanba.sunnybank.domain.response.RegisterResponse;
 import com.juanba.sunnybank.infrastructure.mappers.UserRequestResponseMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -21,16 +20,26 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
+    private final GetUserUseCase getUserUseCase;
+
     private final UserRequestResponseMapper userRequestResponseMapper;
 
     @Transactional
     @PostMapping
     public ResponseEntity<RegisterResponse> createUser(@RequestBody @Valid RegisterRequest registerRequest, UriComponentsBuilder uriComponentsBuilder) {
         final User user = userRequestResponseMapper.toUser(registerRequest);
-        final User userCreated =  createUserUseCase.createUser(user);
+        final User userCreated = createUserUseCase.createUser(user);
 
         var uri = uriComponentsBuilder.path("/users/{id}").buildAndExpand(userCreated.getId()).toUri();
 
         return ResponseEntity.created(uri).body(userRequestResponseMapper.toRegisterResponse(userCreated));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetUserResponse> getUser(@PathVariable Long id) {
+        final User user = getUserUseCase.findById(id).
+                orElseThrow(() -> new IllegalArgumentException("User not found in the database"));
+
+        return ResponseEntity.ok(new GetUserResponse(user));
     }
 }
