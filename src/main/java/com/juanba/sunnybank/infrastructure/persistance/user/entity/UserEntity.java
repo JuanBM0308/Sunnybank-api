@@ -120,5 +120,10 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    // ! Metodo de eliminacion logica
+    public void delete() {
+        this.isActive = false;
+    }
 }
 

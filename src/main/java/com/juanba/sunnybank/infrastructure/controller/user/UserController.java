@@ -1,6 +1,7 @@
 package com.juanba.sunnybank.infrastructure.controller.user;
 
 import com.juanba.sunnybank.application.port.in.user.CreateUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.DeleteUserUserCase;
 import com.juanba.sunnybank.application.port.in.user.GetUserUseCase;
 import com.juanba.sunnybank.application.port.in.user.ListUserUseCase;
 import com.juanba.sunnybank.domain.model.user.User;
@@ -27,6 +28,7 @@ public class UserController {
     private final CreateUserUseCase createUserUseCase;
     private final GetUserUseCase getUserUseCase;
     private final ListUserUseCase listUserUseCase;
+    private final DeleteUserUserCase deleteUserUserCase;
 
     private final UserRequestResponseMapper userRequestResponseMapper;
 
@@ -53,6 +55,14 @@ public class UserController {
     public ResponseEntity<Page<GetUserResponse>> listUser(@PageableDefault(sort = {"email"}) Pageable pageable) {
         final Page<GetUserResponse> userPage = listUserUseCase.findAllByIsActiveTrue(pageable)
                 .map(GetUserResponse::new);
+
         return ResponseEntity.ok(userPage);
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        deleteUserUserCase.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

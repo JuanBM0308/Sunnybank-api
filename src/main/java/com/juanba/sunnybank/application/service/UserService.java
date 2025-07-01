@@ -1,6 +1,7 @@
 package com.juanba.sunnybank.application.service;
 
 import com.juanba.sunnybank.application.port.in.user.CreateUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.DeleteUserUserCase;
 import com.juanba.sunnybank.application.port.in.user.GetUserUseCase;
 import com.juanba.sunnybank.application.port.in.user.ListUserUseCase;
 import com.juanba.sunnybank.application.port.out.UserRepositoryOutPort;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserUseCase {
+public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserUseCase, DeleteUserUserCase {
 
     private final UserRepositoryOutPort userRepositoryOutPort;
 
@@ -33,5 +34,10 @@ public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserU
     @Override
     public Page<User> findAllByIsActiveTrue(Pageable pageable) {
         return userRepositoryOutPort.findAllByIsActiveTrue(pageable);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepositoryOutPort.delete(id);
     }
 }

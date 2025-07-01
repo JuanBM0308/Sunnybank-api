@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,5 +36,11 @@ public class JpaUserRepositoryAdapter implements UserRepositoryOutPort {
     public Page<User> findAllByIsActiveTrue(Pageable pageable) {
         final Page<UserEntity> userEntityPage = springDataUserRepository.findAllByIsActiveTrue(pageable);
         return userEntityPage.map(userMapper::toDomain);
+    }
+
+    @Override
+    public void delete(Long id) {
+        final UserEntity savedUser = springDataUserRepository.getReferenceById(id);
+        savedUser.delete();
     }
 }
