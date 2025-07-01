@@ -36,6 +36,7 @@ public class HttpSecurityConfig {
                     httpRequest.requestMatchers(HttpMethod.GET, "/api/v1/users/{id}").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name());
                     httpRequest.requestMatchers(HttpMethod.GET, "/api/v1/users").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name());
                     httpRequest.requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}").hasRole(Role.SYSTEM_ADMIN.name());
+                    httpRequest.requestMatchers(HttpMethod.PUT, "/api/v1/users").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name(), Role.CUSTOMER.name());
 
                     httpRequest.anyRequest().authenticated();
                 })

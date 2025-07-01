@@ -3,10 +3,12 @@ package com.juanba.sunnybank.infrastructure.persistance.user.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.juanba.sunnybank.domain.model.user.IdentificationType;
 import com.juanba.sunnybank.domain.model.user.Role;
+import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
 import com.juanba.sunnybank.infrastructure.persistance.address.AddressEntity;
 import com.juanba.sunnybank.infrastructure.persistance.bank_account.BankAccountEntity;
 import com.juanba.sunnybank.infrastructure.persistance.notification.NotificationEntity;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -124,6 +126,23 @@ public class UserEntity implements UserDetails {
     // ! Metodo de eliminacion logica
     public void delete() {
         this.isActive = false;
+    }
+
+    public void updateInformation(@Valid UpdateUserRequest updateUserRequest) {
+        if (updateUserRequest.email() != null) {
+            this.email = updateUserRequest.email();
+        }
+        if (updateUserRequest.phoneNumber() != null) {
+            this.phoneNumber = updateUserRequest.phoneNumber();
+        }
+        if (updateUserRequest.address() != null) {
+            this.address = new AddressEntity(
+                    updateUserRequest.address().getStreet(),
+                    updateUserRequest.address().getCity(),
+                    updateUserRequest.address().getState(),
+                    updateUserRequest.address().getZipCode()
+            );
+        }
     }
 }
 

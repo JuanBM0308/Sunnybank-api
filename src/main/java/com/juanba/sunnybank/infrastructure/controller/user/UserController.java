@@ -1,15 +1,12 @@
 package com.juanba.sunnybank.infrastructure.controller.user;
 
-import com.juanba.sunnybank.application.port.in.user.CreateUserUseCase;
-import com.juanba.sunnybank.application.port.in.user.DeleteUserUserCase;
-import com.juanba.sunnybank.application.port.in.user.GetUserUseCase;
-import com.juanba.sunnybank.application.port.in.user.ListUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.*;
 import com.juanba.sunnybank.domain.model.user.User;
 import com.juanba.sunnybank.domain.request.user.RegisterRequest;
+import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
 import com.juanba.sunnybank.domain.response.user.GetUserResponse;
 import com.juanba.sunnybank.domain.response.user.RegisterResponse;
 import com.juanba.sunnybank.infrastructure.mappers.UserRequestResponseMapper;
-import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,6 +26,7 @@ public class UserController {
     private final GetUserUseCase getUserUseCase;
     private final ListUserUseCase listUserUseCase;
     private final DeleteUserUserCase deleteUserUserCase;
+    private final UpdateUserUseCase updateUserUseCase;
 
     private final UserRequestResponseMapper userRequestResponseMapper;
 
@@ -64,5 +62,12 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable Long id) {
         deleteUserUserCase.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Transactional
+    @PutMapping
+    public ResponseEntity updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
+        final User user = updateUserUseCase.update(updateUserRequest);
+        return ResponseEntity.ok(new GetUserResponse(user));
     }
 }

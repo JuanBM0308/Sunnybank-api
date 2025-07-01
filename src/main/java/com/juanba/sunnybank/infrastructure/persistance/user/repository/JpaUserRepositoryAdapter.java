@@ -2,6 +2,7 @@ package com.juanba.sunnybank.infrastructure.persistance.user.repository;
 
 import com.juanba.sunnybank.application.port.out.UserRepositoryOutPort;
 import com.juanba.sunnybank.domain.model.user.User;
+import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
 import com.juanba.sunnybank.infrastructure.mappers.UserMapper;
 import com.juanba.sunnybank.infrastructure.persistance.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,15 @@ public class JpaUserRepositoryAdapter implements UserRepositoryOutPort {
 
     @Override
     public void delete(Long id) {
-        final UserEntity savedUser = springDataUserRepository.getReferenceById(id);
-        savedUser.delete();
+        final UserEntity user = springDataUserRepository.getReferenceById(id);
+        user.delete();
+    }
+
+    @Override
+    public User update(UpdateUserRequest updateUserRequest) {
+        final UserEntity user = springDataUserRepository.findById(updateUserRequest.id())
+                .orElseThrow(() -> new IllegalArgumentException("User with ID" + updateUserRequest.id() + " not found"));
+        user.updateInformation(updateUserRequest);
+        return userMapper.toDomain(user);
     }
 }

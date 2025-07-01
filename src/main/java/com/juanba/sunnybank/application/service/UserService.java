@@ -1,22 +1,19 @@
 package com.juanba.sunnybank.application.service;
 
-import com.juanba.sunnybank.application.port.in.user.CreateUserUseCase;
-import com.juanba.sunnybank.application.port.in.user.DeleteUserUserCase;
-import com.juanba.sunnybank.application.port.in.user.GetUserUseCase;
-import com.juanba.sunnybank.application.port.in.user.ListUserUseCase;
+import com.juanba.sunnybank.application.port.in.user.*;
 import com.juanba.sunnybank.application.port.out.UserRepositoryOutPort;
 import com.juanba.sunnybank.domain.model.user.User;
+import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserUseCase, DeleteUserUserCase {
+public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserUseCase, DeleteUserUserCase, UpdateUserUseCase {
 
     private final UserRepositoryOutPort userRepositoryOutPort;
 
@@ -39,5 +36,10 @@ public class UserService implements CreateUserUseCase, GetUserUseCase, ListUserU
     @Override
     public void delete(Long id) {
         userRepositoryOutPort.delete(id);
+    }
+
+    @Override
+    public User update(UpdateUserRequest updateUserRequest) {
+        return userRepositoryOutPort.update(updateUserRequest);
     }
 }
