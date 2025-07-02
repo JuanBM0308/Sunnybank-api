@@ -2,11 +2,14 @@ package com.juanba.sunnybank.infrastructure.controller.user;
 
 import com.juanba.sunnybank.application.port.in.user.*;
 import com.juanba.sunnybank.domain.model.user.User;
+import com.juanba.sunnybank.domain.request.user.ChangePasswordRequest;
 import com.juanba.sunnybank.domain.request.user.RegisterRequest;
 import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
+import com.juanba.sunnybank.domain.response.user.CodePasswordResponse;
 import com.juanba.sunnybank.domain.response.user.GetUserResponse;
 import com.juanba.sunnybank.domain.response.user.RegisterResponse;
 import com.juanba.sunnybank.infrastructure.mappers.UserRequestResponseMapper;
+import com.juanba.sunnybank.infrastructure.service.user.ChangePassword;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +30,9 @@ public class UserController {
     private final ListUserUseCase listUserUseCase;
     private final DeleteUserUserCase deleteUserUserCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final ChangePasswordUseCase changePasswordUseCase;
 
+    private final ChangePassword changePassword;
     private final UserRequestResponseMapper userRequestResponseMapper;
 
     @Transactional
@@ -69,5 +74,17 @@ public class UserController {
     public ResponseEntity updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
         final User user = updateUserUseCase.update(updateUserRequest);
         return ResponseEntity.ok(new GetUserResponse(user));
+    }
+
+    @GetMapping("/{id}/generate-code-password")
+    public ResponseEntity<CodePasswordResponse> generateCodePassword(@PathVariable Long id) {
+        return ResponseEntity.ok(new CodePasswordResponse(changePassword.initiatePasswordReset(id)));
+    }
+
+    @Transactional
+    @PutMapping("/change-password")
+    public ResponseEntity changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+        changePasswordUseCase.changePassword(changePasswordRequest);
+        return ResponseEntity.ok().build();
     }
 }
