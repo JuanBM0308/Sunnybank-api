@@ -1,4 +1,4 @@
-package com.juanba.sunnybank.infrastructure.persistance.bank_account;
+package com.juanba.sunnybank.infrastructure.persistance.bank_account.entity;
 
 import com.juanba.sunnybank.domain.model.bank_account.AccountType;
 import com.juanba.sunnybank.domain.model.bank_account.Status;

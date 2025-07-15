@@ -1,7 +1,7 @@
 package com.juanba.sunnybank.infrastructure.mappers;
 
 import com.juanba.sunnybank.domain.model.bank_account.BankAccount;
-import com.juanba.sunnybank.infrastructure.persistance.bank_account.BankAccountEntity;
+import com.juanba.sunnybank.infrastructure.persistance.bank_account.entity.BankAccountEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

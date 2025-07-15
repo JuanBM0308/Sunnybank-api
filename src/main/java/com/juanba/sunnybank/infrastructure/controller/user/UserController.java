@@ -48,8 +48,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetUserResponse> getUser(@PathVariable Long id) {
-        final User user = getUserUseCase.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("User not found in the database"));
+        final User user = getUserUseCase.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found in the database"));
 
         return ResponseEntity.ok(new GetUserResponse(user));
     }

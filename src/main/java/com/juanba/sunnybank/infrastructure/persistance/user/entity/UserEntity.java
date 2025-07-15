@@ -5,7 +5,7 @@ import com.juanba.sunnybank.domain.model.user.IdentificationType;
 import com.juanba.sunnybank.domain.model.user.Role;
 import com.juanba.sunnybank.domain.request.user.UpdateUserRequest;
 import com.juanba.sunnybank.infrastructure.persistance.address.AddressEntity;
-import com.juanba.sunnybank.infrastructure.persistance.bank_account.BankAccountEntity;
+import com.juanba.sunnybank.infrastructure.persistance.bank_account.entity.BankAccountEntity;
 import com.juanba.sunnybank.infrastructure.persistance.notification.NotificationEntity;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

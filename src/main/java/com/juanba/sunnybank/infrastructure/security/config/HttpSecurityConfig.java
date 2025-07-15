@@ -40,6 +40,10 @@ public class HttpSecurityConfig {
                     httpRequest.requestMatchers(HttpMethod.GET, "/api/v1/users/{id}/generate-code-password").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.CUSTOMER.name());
                     httpRequest.requestMatchers(HttpMethod.PUT, "/api/v1/users/change-password").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.CUSTOMER.name());
 
+                    // ! Bank account endpoints
+                    httpRequest.requestMatchers(HttpMethod.POST, "/api/v1/bank-accounts").hasAnyRole(Role.SYSTEM_ADMIN.name(), Role.BANK_EMPLOYEE.name());
+
+
                     httpRequest.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
